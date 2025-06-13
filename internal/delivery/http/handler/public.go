@@ -59,23 +59,5 @@ func (h *PublicHandler) Admin(c *gin.Context) {
 }
 
 // func (h *PublicHandler) Getcards(c *gin.Context) {
-// 	rows, err := db.Query("SELECT id, nom, mana, effets FROM cartehs ")
-// 	if err != nil {
-// 		panic(err)
-// 	}
-
-// 	defer rows.Close()
-
-// 	var cards []domain.Card
-// 	for rows.Next() {
-// 		var crt domain.Card
-
-// 		if err := rows.Scan(&crt.ID, &crt.Name, &crt.Mana, &crt.Effects); err != nil {
-// 			panic(err)
-// 		}
-
-// 		cards = append(cards, crt)
-// 	}
-
 // 	c.JSON(200, cards)
 // }
