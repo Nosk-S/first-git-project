@@ -1,0 +1,73 @@
+.page {
+  background-color: rgb(0, 120, 255);
+}
+
+body {
+  width: 90%;
+  margin: 5%;
+  background-color: whitesmoke;
+  border: 5px solid black;
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  padding: 20px 0;
+  color: red;
+  text-shadow: 3px 3px 1px black;
+  background-color: gray;
+}
+
+h2 {
+  font-size: 25px;
+  font-family: monospace;
+}
+
+p,
+button,
+input {
+  font-size: 20px;
+  font-family: monospace;
+}
+
+button {
+  width: 150px;
+  text-align: center;
+}
+
+div {
+  margin: 2.5%;
+}
+
+label {
+  display: inline-block;
+  width: 220px;
+  text-align: left;
+  margin-right: 10px;
+}
+
+#cards-table {
+  background: white;
+  font-size: 15px;
+  font-family: monospace;
+  border-collapse: collapse;
+}
+
+#cards-table th,
+#cards-table td {
+  border: 2px solid black;
+  padding: 5px;
+  text-align: left;
+}
+
+.column-id {
+  width: 5%;
+}
+
+.column-name {
+  width: 30%;
+}
+
+.column-mana {
+  width: 5%;
+}

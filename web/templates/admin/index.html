@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en" class="page">
+  <head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-light">
+    <h1 class="display-1 text-center text-light pt-2 pb-4 bg-dark">
+      <strong>{{ .title }}</strong>
+    </h1>
+    <div class="container-fluid">
+      <div class="container-l">
+        <h1 class="display-3 text-center">Liste des cartes</h1>
+        <div class="input-group mb-4 w-50 mx-auto">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Rechercher une carte"
+            id="research"
+            name="research"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            id="button-research"
+            onclick="research(event)"
+          >
+            Rechercher
+          </button>
+        </div>
+      </div>
+
+      <table
+        id="cards-table"
+        class="table table-bordered border-dark w-75 mx-auto align-middle"
+      >
+        <thead>
+          <tr class="table-info border-dark">
+            <th class="col-1">ID</th>
+            <th class="col-3">Nom</th>
+            <th class="col-1">Mana</th>
+            <th>Effet</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider"></tbody>
+      </table>
+
+      <h2 class="display-5 text-center pb-2">Ajouter une carte :</h2>
+
+      <div class="container-l">
+        <div class="row align-items-center col">
+          <div class="col">
+            <form id="add-card-form">
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nom de la carte :"
+                  id="add_name"
+                  name="name"
+                />
+              </div>
+
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Cout de la carte :"
+                  id="add_mana"
+                  name="mana"
+                />
+              </div>
+
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Effet de la carte :"
+                  id="add_effects"
+                  name="effects"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-outline-secondary col-6"
+              type="button"
+              id="button-add"
+              onclick="addcard()"
+            >
+              ajouter à la liste
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="display-5 text-center pb-2">Supprimer une carte :</h2>
+
+      <div class="container-l">
+        <div class="row align-items-center">
+          <div class="col">
+            <form id="delete-card-form">
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ID de la carte :"
+                  id="delete_id"
+                  name="id"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="col">
+            <button
+              class="btn btn-outline-secondary col-6"
+              type="button"
+              id="button-delete"
+              onclick="deletecard()"
+            >
+              supprimer de a la liste
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <h2 class="display-5 text-center pb-2">Modifier une carte :</h2>
+
+      <div class="container-l">
+        <div class="row align-items-center">
+          <div class="col">
+            <form id="patch-card-form">
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="ID de la carte :"
+                  id="patch_id"
+                  name="id"
+                />
+              </div>
+
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nom de la carte :"
+                  id="patch_name"
+                  name="name"
+                />
+              </div>
+
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Cout de la carte :"
+                  id="patch_mana"
+                  name="mana"
+                />
+              </div>
+
+              <div class="input-group mb-2 w-75 mx-auto">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Effet de la carte :"
+                  id="patch_effects"
+                  name="effects"
+                />
+              </div>
+            </form>
+          </div>
+
+          <div class="col">
+            <button
+              class="btn btn-outline-secondary col-6"
+              type="button"
+              id="button-delete"
+              onclick="modifcard()"
+            >
+              modifier une carte
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="border border-dark border-2" />
+    <div class="container-fluid">
+      <figure>
+        <blockquote class="blockquote">
+          <p>Une page faite et écrite par :</p>
+        </blockquote>
+        <figcaption class="blockquote-footer">
+          L'unique <cite title="Source Title">Noah S</cite>
+        </figcaption>
+      </figure>
+    </div>
+
+    <script>
+      function loadCards() {
+        fetch("/api/cards")
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // On cible le <tbody> de notre table
+            const tbody = document.querySelector("#cards-table tbody");
+            tbody.innerHTML = ""; // on vide tout
+
+            data.forEach((card) => {
+              const tr = document.createElement("tr");
+
+              // ID
+              const tdId = document.createElement("td");
+              tdId.textContent = card.id;
+              tr.appendChild(tdId);
+
+              // Nom
+              const tdName = document.createElement("td");
+              tdName.textContent = card.name;
+              tr.appendChild(tdName);
+
+              // Mana
+              const tdMana = document.createElement("td");
+              tdMana.textContent = card.mana;
+              tr.appendChild(tdMana);
+
+              // Effets
+              const tdEffects = document.createElement("td");
+              tdEffects.textContent = card.effects;
+              tr.appendChild(tdEffects);
+
+              tbody.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête GET :", error);
+            const tbody = document.querySelector("#cards-table tbody");
+            tbody.innerHTML = ""; // on vide le tableau
+
+            // on crée une ligne d'erreur sur toute la largeur
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.setAttribute("colspan", 3);
+            td.textContent = `Impossible de charger les cartes : ${error.message}`;
+            td.style.color = "red";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+          });
+      }
+
+      loadCards();
+
+      //fonction pour la validité du champs name et effects
+      function teststring(string) {
+        const re = /^[a-zA-Z0-9][A-Za-z0-9' -,]+$/;
+        return re.test(string);
+      }
+
+      //fonction pour la recherche
+      function research(event) {
+        event.preventDefault(); // empêche le rechargement de la page
+
+        const input = document.getElementById("research");
+        const query = input.value.trim();
+
+        if (query === "") {
+          // si la barre est vide, on recharge tout
+          loadCards();
+          return;
+        }
+
+        if (!teststring(query)) {
+          alert("Mettez quelque chose de correct dans la barre de recherche");
+          return;
+        }
+
+        const cardData = { research: query };
+
+        fetch("/api/research", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cardData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // on cible le <tbody> de notre tableau
+            const tbody = document.querySelector("#cards-table tbody");
+            tbody.innerHTML = ""; // on vide les anciennes lignes
+
+            // si l’API renvoie un tableau cartes, sinon on parcours un tableau vide
+            (data.cartes || []).forEach((card) => {
+              const tr = document.createElement("tr");
+
+              const tdId = document.createElement("td");
+              tdId.textContent = card.id;
+              tr.appendChild(tdId);
+
+              const tdName = document.createElement("td");
+              tdName.textContent = card.name;
+              tr.appendChild(tdName);
+
+              const tdMana = document.createElement("td");
+              tdMana.textContent = card.mana;
+              tr.appendChild(tdMana);
+
+              const tdEffects = document.createElement("td");
+              tdEffects.textContent = card.effects;
+              tr.appendChild(tdEffects);
+
+              tbody.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête POST :", error);
+
+            const tbody = document.querySelector("#cards-table tbody");
+            tbody.innerHTML = ""; // on vide le tableau
+
+            // on affiche le message d’erreur sur une seule ligne qui fait 3 colonnes
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.setAttribute("colspan", 3);
+            td.textContent = `Impossible de charger les cartes : ${error.message}`;
+            td.style.color = "red";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+          });
+      }
+
+      function addcard() {
+        event.preventDefault(); // empêche le rechargement de la page
+
+        // Récupérer les valeurs du formulaire
+        let name = document.getElementById("add_name");
+        let mana = document.getElementById("add_mana");
+        let effects = document.getElementById("add_effects");
+
+        const cardData = {
+          name: name.value,
+          mana: parseInt(mana.value, 10),
+          effects: effects.value,
+        };
+
+        if (cardData.name == "" || !teststring(cardData.name)) {
+          alert(
+            "Le nom de la carte ne doit pas etre vide et doit etre correct !"
+          );
+          return;
+        }
+
+        if (
+          !Number.isInteger(cardData.mana) ||
+          cardData.mana < 0 ||
+          cardData.mana > 126
+        ) {
+          alert("Le coût de la carte doit être un entier positif !");
+          return;
+        }
+
+        if (cardData.effects == "" || !teststring(cardData.effects)) {
+          alert(
+            "L'effet de la carte ne doit pas etre vide et doit etre correct!"
+          );
+          return;
+        }
+
+        // Envoyer d'un POST
+        fetch("/api/card", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cardData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((newCard) => {
+            name.value = "";
+            mana.value = "";
+            effects.value = "";
+            loadCards(); // Te permet de reload les cartes une fois insérées
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête POST :", error);
+            alert(`Impossible d'ajouter la carte : ${error.message}`);
+          });
+      }
+
+      function deletecard() {
+        event.preventDefault(); // empêche le rechargement de la page
+
+        // Récupérer les valeurs du formulaire
+        let id = document.getElementById("delete_id");
+
+        const cardData = { id: parseInt(id.value, 10) };
+
+        if (!Number.isInteger(cardData.id)) {
+          alert("l'id doit correspondre a celui d'une carte de la liste");
+          return;
+        }
+
+        // Envoie d'un DELETE
+        fetch("/api/card", {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cardData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((newCard) => {
+            loadCards(); // Te permet de reload les cartes une fois insérées
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête DELETE :", error);
+            alert(`Impossible de supprimer la carte : ${error.message}`);
+          });
+      }
+
+      function modifcard() {
+        event.preventDefault(); // empêche le rechargement de la page
+
+        // Récupérer les valeurs du formulaire
+        let id = document.getElementById("patch_id");
+        let name = document.getElementById("patch_name");
+        let mana = document.getElementById("patch_mana");
+        let effects = document.getElementById("patch_effects");
+
+        const cardData = {
+          id: parseInt(id.value, 10),
+          name: name.value,
+          mana: parseInt(mana.value, 10),
+          effects: effects.value,
+        };
+
+        if (!Number.isInteger(cardData.id)) {
+          alert("l'id doit correspondre a celui d'une carte de la liste");
+          return;
+        }
+
+        if (cardData.name == "") {
+          cardData.name = null;
+        } else if (!teststring(cardData.name)) {
+          alert("Le nom de la carte doit etre correct !");
+          return;
+        }
+        if (cardData.effects == "") {
+          cardData.effects = null;
+        } else if (!teststring(cardData.effects)) {
+          alert("L'effet de la carte doit etre correct !");
+          return;
+        }
+
+        // Envoyer d'un PATCH
+        fetch("/api/card", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cardData),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Erreur HTTP ! Statut : ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((newCard) => {
+            loadCards(); // Te permet de reload les cartes une fois insérées
+          })
+          .catch((error) => {
+            console.error("Erreur lors de la requête POST :", error);
+            alert(`Impossible de modifier la carte : ${error.message}`);
+          });
+      }
+    </script>
+  </body>
+</html>
