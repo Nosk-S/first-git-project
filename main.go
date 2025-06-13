@@ -18,6 +18,8 @@ import (
 
 var db *sql.DB
 
+//test pour comprendre git
+
 func main() {
 
 	// env config
