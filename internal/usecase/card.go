@@ -19,5 +19,5 @@ func NewCardUsecase(repo repository.CardRepository) CardUsecase {
 }
 
 func (u *cardUsecase) GetCards(ctx context.Context) ([]domain.Card, error) {
-	return u.repo.FetchAll(ctx)
+	return u.repo.SelectCards(ctx)
 }

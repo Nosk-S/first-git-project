@@ -6,11 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler) {
+func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler, cardsHandler *handler.CardsHandler) {
 	public := router.Group("/")
 	{
 		public.GET("/", publicHandler.Index)
 	}
+
 	admin := public.Group("/admin")
 	{
 		admin.Use(gin.BasicAuth(gin.Accounts{
@@ -18,5 +19,9 @@ func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler) {
 		}))
 		admin.GET("/", publicHandler.Admin)
 	}
+	api := public.Group("/api")
+	{
+		api.GET("/cards", cardsHandler.GetCards)
 
+	}
 }

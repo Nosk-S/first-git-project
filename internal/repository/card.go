@@ -3,11 +3,12 @@ package repository
 import (
 	"context"
 	"database/sql"
+	"fmt"
 	"gin-project/internal/domain"
 )
 
 type CardRepository interface {
-	SelectAll(ctx context.Context) ([]domain.Card, error)
+	SelectCards(ctx context.Context) ([]domain.Card, error)
 }
 
 type SQLCardRepository struct {
@@ -18,7 +19,7 @@ func NewSQLCardRepository(db *sql.DB) CardRepository {
 	return &SQLCardRepository{db: db}
 }
 
-func (r *SQLCardRepository) Select(ctx context.Context) ([]domain.Card, error) {
+func (r *SQLCardRepository) SelectCards(ctx context.Context) ([]domain.Card, error) {
 	rows, err := r.db.QueryContext(ctx, "SELECT id, nom, mana, effets FROM cartehs")
 	if err != nil {
 		return nil, err
@@ -37,5 +38,8 @@ func (r *SQLCardRepository) Select(ctx context.Context) ([]domain.Card, error) {
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
+
+	fmt.Println(cards)
+
 	return cards, nil
 }

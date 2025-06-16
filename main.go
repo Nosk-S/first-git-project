@@ -6,22 +6,31 @@ import (
 	"gin-project/internal/delivery/http/handler"
 	"gin-project/internal/delivery/http/route"
 	"gin-project/internal/infrastructure"
+	"gin-project/internal/repository"
+	"gin-project/internal/usecase"
 )
-
-//test pour comprendre git
 
 func main() {
 
 	config := config.New()
+
 	fmt.Println(config)
 
-	infrastructure.NewMySQL(config)
+	db, err := infrastructure.NewMySQL(config)
+
+	if err != nil {
+		panic(err)
+	}
 
 	router := infrastructure.NewGin()
 
 	publicHandler := handler.NewPublicHandler()
 
-	route.RegisterRoute(router, publicHandler)
+	cardRepository := repository.NewSQLCardRepository(db)
+	cardUsecase := usecase.NewCardUsecase(cardRepository)
+	cardsHandler := handler.NewCardsHandler(cardUsecase)
+
+	route.RegisterRoute(router, publicHandler, cardsHandler)
 
 	router.Run(":" + config.Server.Port)
 

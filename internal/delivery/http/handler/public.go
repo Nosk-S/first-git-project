@@ -1,14 +1,11 @@
 package handler
 
 import (
-	_ "database/sql"
 	"gin-project/web"
 	"text/template"
 
 	"github.com/gin-gonic/gin"
 )
-
-//var db *sql.DB
 
 type PublicHandler struct {
 }
@@ -57,7 +54,3 @@ func (h *PublicHandler) Admin(c *gin.Context) {
 	}
 
 }
-
-// func (h *PublicHandler) Getcards(c *gin.Context) {
-// 	c.JSON(200, cards)
-// }
