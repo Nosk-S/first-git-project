@@ -11,11 +11,13 @@ import (
 
 func NewMySQL(config config.Config) (*sql.DB, error) {
 
-	url := fmt.Sprintf("%s:%s@tcp(%s:%s)/",
+	url := fmt.Sprintf(
+		"%s:%s@tcp(%s:%s)/%s?parseTime=true",
 		config.Database.User,
 		config.Database.Password,
 		config.Database.Address,
 		config.Database.Port,
+		config.Database.Name,
 	)
 
 	db, err := sql.Open("mysql", url)

@@ -1,8 +1,8 @@
 package domain
 
 type Card struct {
-	ID      int
-	Name    string
-	Mana    int8
-	Effects string
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Mana    int8   `json:"mana"`
+	Effects string `json:"effects"`
 }

@@ -124,45 +124,47 @@ func main() {
 	// 	c.JSON(200, cards)
 	// })
 
-	// 		api.POST("/research", func(c *gin.Context) {
-	// 			var crt models.CardResearch
+	//__________________________________________________________________//
 
-	// 			// 1) Binder le JSON dans crt
-	// 			if err := c.ShouldBindJSON(&crt); err != nil {
-	// 				c.JSON(http.StatusBadRequest, gin.H{"erreur": "JSON invalide ou mal formé"})
-	// 				return
-	// 			}
+	// api.POST("/research", func(c *gin.Context) {
+	// 	var crt models.CardResearch
 
-	// 			// 2) Vérifier que Research n'est pas vide
-	// 			if strings.TrimSpace(crt.Research) == "" {
-	// 				c.JSON(http.StatusBadRequest, gin.H{"erreur": "Le champ 'research' est requis pour rechercher une carte."})
-	// 				return
-	// 			}
+	// 	// 1) Binder le JSON dans crt
+	// 	if err := c.ShouldBindJSON(&crt); err != nil {
+	// 		c.JSON(http.StatusBadRequest, gin.H{"erreur": "JSON invalide ou mal formé"})
+	// 		return
+	// 	}
 
-	// 			// 3) Faire le SELECT correctement
-	// 			rows, err := db.Query("SELECT id, nom, mana, effets FROM `cartehs` WHERE `nom` LIKE ? OR `effets` LIKE ?", "%"+crt.Research+"%", "%"+crt.Research+"%")
+	// 	// 2) Vérifier que Research n'est pas vide
+	// 	if strings.TrimSpace(crt.Research) == "" {
+	// 		c.JSON(http.StatusBadRequest, gin.H{"erreur": "Le champ 'research' est requis pour rechercher une carte."})
+	// 		return
+	// 	}
 
-	// 			if err != nil {
-	// 				c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Échec de la recherche", "details": err.Error()})
-	// 				return
-	// 			}
-	// 			defer rows.Close()
+	// 	// 3) Faire le SELECT correctement
+	// 	rows, err := db.Query("SELECT id, nom, mana, effets FROM `cartehs` WHERE `nom` LIKE ? OR `effets` LIKE ?", "%"+crt.Research+"%", "%"+crt.Research+"%")
 
-	// 			// 4) Parcourir les résultats
-	// 			var cartes []domain.Card
-	// 			for rows.Next() {
-	// 				var carte domain.Card
-	// 				if err := rows.Scan(&carte.ID, &carte.Name, &carte.Mana, &carte.Effects); err != nil {
-	// 					c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Erreur de lecture des données", "details": err.Error()})
-	// 					return
-	// 				}
-	// 				cartes = append(cartes, carte)
-	// 			}
+	// 	if err != nil {
+	// 		c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Échec de la recherche", "details": err.Error()})
+	// 		return
+	// 	}
+	// 	defer rows.Close()
 
-	// 			c.JSON(http.StatusOK, gin.H{
-	// 				"cartes": cartes,
-	// 			})
-	// 		})
+	// 	// 4) Parcourir les résultats
+	// 	var cartes []domain.Card
+	// 	for rows.Next() {
+	// 		var carte domain.Card
+	// 		if err := rows.Scan(&carte.ID, &carte.Name, &carte.Mana, &carte.Effects); err != nil {
+	// 			c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Erreur de lecture des données", "details": err.Error()})
+	// 			return
+	// 		}
+	// 		cartes = append(cartes, carte)
+	// 	}
+
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"cartes": cartes,
+	// 	})
+	// })
 
 	// 		api.Use(gin.BasicAuth(gin.Accounts{
 	// 			"admin": "admin",

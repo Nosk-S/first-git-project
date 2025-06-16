@@ -22,6 +22,8 @@ func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler, car
 	api := public.Group("/api")
 	{
 		api.GET("/cards", cardsHandler.GetCards)
+		api.GET("/card", cardsHandler.GetCard)
+		api.POST("/research", cardsHandler.CardWhere)
 
 	}
 }
