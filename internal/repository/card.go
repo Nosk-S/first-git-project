@@ -1,39 +1,41 @@
 package repository
 
 import (
+	"context"
 	"database/sql"
 	"gin-project/internal/domain"
 )
 
 type CardRepository interface {
+	SelectAll(ctx context.Context) ([]domain.Card, error)
 }
 
-type CardRepositoryImpl struct {
-	DB *sql.DB
+type SQLCardRepository struct {
+	db *sql.DB
 }
 
-func NewCardRepository(db *sql.DB) CardRepository {
-	return &CardRepositoryImpl{DB: db}
+func NewSQLCardRepository(db *sql.DB) CardRepository {
+	return &SQLCardRepository{db: db}
 }
 
-func (r *CardRepositoryImpl) SelectCards() *[]domain.Card {
-	rows, err := r.DB.Query("SELECT id, nom, mana, effets FROM cartehs ")
+func (r *SQLCardRepository) Select(ctx context.Context) ([]domain.Card, error) {
+	rows, err := r.db.QueryContext(ctx, "SELECT id, nom, mana, effets FROM cartehs")
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-
 	defer rows.Close()
 
-	var cards []domain.Card
+	cards := make([]domain.Card, 0)
 	for rows.Next() {
-		var crt domain.Card
+		var c domain.Card
 
-		if err := rows.Scan(&crt.ID, &crt.Name, &crt.Mana, &crt.Effects); err != nil {
-			panic(err)
+		if err := rows.Scan(&c.ID, &c.Name, &c.Mana, &c.Effects); err != nil {
+			return nil, err
 		}
-
-		cards = append(cards, crt)
+		cards = append(cards, c)
 	}
-
-	return &cards
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return cards, nil
 }

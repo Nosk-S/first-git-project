@@ -1,26 +1,23 @@
 package usecase
 
 import (
+	"context"
 	"gin-project/internal/domain"
 	"gin-project/internal/repository"
 )
 
 type CardUsecase interface {
+	GetCards(ctx context.Context) ([]domain.Card, error)
 }
 
-type CardUsecaseImpl struct {
-	CardRepository repository.CardRepository
+type cardUsecase struct {
+	repo repository.CardRepository
 }
 
-func NewCardUsecase(cardRepo repository.CardRepository) CardUsecase {
-	return &CardUsecaseImpl{
-		CardRepository: cardRepo,
-	}
-
+func NewCardUsecase(repo repository.CardRepository) CardUsecase {
+	return &cardUsecase{repo: repo}
 }
 
-func (uc *CardUsecaseImpl) SelectCards([]domain.Card) (domain.Card, error) {
-
-	return
-
+func (u *cardUsecase) GetCards(ctx context.Context) ([]domain.Card, error) {
+	return u.repo.FetchAll(ctx)
 }

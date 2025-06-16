@@ -18,9 +18,5 @@ func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler) {
 		}))
 		admin.GET("/", publicHandler.Admin)
 	}
-	// api := public.Group("/api")
-	// {
-	// 	api.GET("/cards", publicHandler.Getcards)
-	// }
 
 }
