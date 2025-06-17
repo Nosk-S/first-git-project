@@ -72,6 +72,12 @@ func (u *cardUsecase) UpdateCard(ctx context.Context, updatecard models.CardUpda
 		return models.CardUpdateRequest{}, fmt.Errorf("le champ ID est requis")
 	}
 
+	if updatecard.Name == nil && updatecard.Mana == nil && updatecard.Effects == nil {
+		return models.CardUpdateRequest{}, fmt.Errorf(
+			"au moins un champ (Name, Mana ou Effects) doit être renseigné pour la mise à jour",
+		)
+	}
+
 	currentID := fmt.Sprint(*updatecard.ID)
 	currentcard, err := u.repo.SelectCard(ctx, currentID)
 	if err != nil {

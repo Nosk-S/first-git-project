@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"gin-project/config"
 	"gin-project/internal/delivery/http/handler"
 	"gin-project/internal/delivery/http/route"
@@ -13,8 +12,6 @@ import (
 func main() {
 
 	config := config.New()
-
-	fmt.Println(config)
 
 	db, err := infrastructure.NewMySQL(config)
 

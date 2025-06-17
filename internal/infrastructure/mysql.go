@@ -30,7 +30,5 @@ func NewMySQL(config config.Config) (*sql.DB, error) {
 		log.Fatal(pingErr)
 	}
 
-	fmt.Println("Connected!")
-
 	return db, err
 }

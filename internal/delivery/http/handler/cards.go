@@ -26,8 +26,9 @@ func (h *CardsHandler) GetCards(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, cards)
-
+	c.JSON(200, gin.H{
+		"message": "liste des cartes de la base de donnée",
+		"cartes":  cards})
 }
 
 func (h *CardsHandler) GetCard(c *gin.Context) {
@@ -44,8 +45,9 @@ func (h *CardsHandler) GetCard(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, card)
-
+	c.JSON(200, gin.H{
+		"message": "carte qui possède l'id sélectionner",
+		"cartes":  card})
 }
 
 func (h *CardsHandler) CardWhere(c *gin.Context) {
