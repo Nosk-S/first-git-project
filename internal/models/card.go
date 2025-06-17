@@ -9,7 +9,6 @@ type CardResearch struct {
 }
 
 type CardInsertRequest struct {
-	ID      *int    `json:"id"`
 	Name    *string `json:"name"`
 	Mana    *int8   `json:"mana"`
 	Effects *string `json:"effects"`

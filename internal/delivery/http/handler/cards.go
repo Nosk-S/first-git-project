@@ -69,6 +69,70 @@ func (h *CardsHandler) CardWhere(c *gin.Context) {
 		return
 	}
 
-	c.JSON(200, cards)
+	c.JSON(200, gin.H{
+		"message": "carte trouver pour votre recherche",
+		"cartes":  cards})
 
+}
+
+func (h *CardsHandler) InsertCard(c *gin.Context) {
+
+	var add models.CardInsertRequest
+
+	if err := c.ShouldBindJSON(&add); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON invalide"})
+		return
+	}
+
+	card, err := h.CardUsecase.InsertCard(c.Request.Context(), add)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "la carte suivante a été ajouter",
+		"carte":   card})
+
+}
+
+func (h *CardsHandler) DeleteCard(c *gin.Context) {
+
+	var delete models.CardDeleteRequest
+
+	if err := c.ShouldBindJSON(&delete); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON invalide"})
+		return
+	}
+
+	ID, err := h.CardUsecase.DeleteCard(c.Request.Context(), delete)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "la carte avec l'ID suivant a été supprimer",
+		"ID":      ID})
+
+}
+
+func (h *CardsHandler) UpdateCard(c *gin.Context) {
+
+	var update models.CardUpdateRequest
+
+	if err := c.ShouldBindJSON(&update); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "JSON invalide"})
+		return
+	}
+
+	card, err := h.CardUsecase.UpdateCard(c.Request.Context(), update)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"message": "la carte suivante a été modifier",
+		"ID":      card})
 }

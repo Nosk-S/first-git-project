@@ -11,6 +11,9 @@ type CardRepository interface {
 	SelectCards(ctx context.Context) ([]domain.Card, error)
 	SelectCard(ctx context.Context, id string) (domain.Card, error)
 	ResearchCards(ctx context.Context, research models.CardResearch) ([]domain.Card, error)
+	AddCard(ctx context.Context, newcard models.CardInsertRequest) (models.CardInsertRequest, error)
+	DeleteCard(ctx context.Context, deletecard models.CardDeleteRequest) (models.CardDeleteRequest, error)
+	EditCard(ctx context.Context, updatecard models.CardUpdateRequest) (models.CardUpdateRequest, error)
 }
 
 type SQLCardRepository struct {
@@ -84,42 +87,42 @@ func (r *SQLCardRepository) ResearchCards(ctx context.Context, research models.C
 
 }
 
-// api.POST("/research", func(c *gin.Context) {
-// 	var crt models.CardResearch
+func (r *SQLCardRepository) AddCard(ctx context.Context, newcard models.CardInsertRequest) (models.CardInsertRequest, error) {
 
-// 	// 1) Binder le JSON dans crt
-// 	if err := c.ShouldBindJSON(&crt); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{"erreur": "JSON invalide ou mal formé"})
-// 		return
-// 	}
+	if _, err := r.db.ExecContext(
+		ctx,
+		"INSERT INTO cartehs (nom, mana, effets) VALUES (?, ?, ?)",
+		*newcard.Name,
+		*newcard.Mana,
+		*newcard.Effects,
+	); err != nil {
+		return models.CardInsertRequest{}, err
+	}
 
-// 	// 2) Vérifier que Research n'est pas vide
-// 	if strings.TrimSpace(crt.Research) == "" {
-// 		c.JSON(http.StatusBadRequest, gin.H{"erreur": "Le champ 'research' est requis pour rechercher une carte."})
-// 		return
-// 	}
+	return newcard, nil
+}
 
-// 	// 3) Faire le SELECT correctement
-// 	rows, err := db.Query("SELECT id, nom, mana, effets FROM `cartehs` WHERE `nom` LIKE ? OR `effets` LIKE ?", "%"+crt.Research+"%", "%"+crt.Research+"%")
+func (r *SQLCardRepository) DeleteCard(ctx context.Context, deletecard models.CardDeleteRequest) (models.CardDeleteRequest, error) {
 
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Échec de la recherche", "details": err.Error()})
-// 		return
-// 	}
-// 	defer rows.Close()
+	if _, err := r.db.ExecContext(
+		ctx,
+		"DELETE FROM cartehs WHERE id = ?",
+		*deletecard.ID,
+	); err != nil {
+		return models.CardDeleteRequest{}, err
+	}
 
-// 	// 4) Parcourir les résultats
-// 	var cartes []domain.Card
-// 	for rows.Next() {
-// 		var carte domain.Card
-// 		if err := rows.Scan(&carte.ID, &carte.Name, &carte.Mana, &carte.Effects); err != nil {
-// 			c.JSON(http.StatusInternalServerError, gin.H{"erreur": "Erreur de lecture des données", "details": err.Error()})
-// 			return
-// 		}
-// 		cartes = append(cartes, carte)
-// 	}
+	return deletecard, nil
+}
 
-// 	c.JSON(http.StatusOK, gin.H{
-// 		"cartes": cartes,
-// 	})
-// })
+func (r *SQLCardRepository) EditCard(ctx context.Context, updatecard models.CardUpdateRequest) (models.CardUpdateRequest, error) {
+	if _, err := r.db.ExecContext(
+		ctx,
+		"UPDATE cartehs SET nom = ?, mana = ?, effets = ? WHERE id = ?",
+		updatecard.Name, updatecard.Mana, updatecard.Effects, updatecard.ID,
+	); err != nil {
+		return models.CardUpdateRequest{}, err
+
+	}
+	return updatecard, nil
+}

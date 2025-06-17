@@ -24,6 +24,13 @@ func RegisterRoute(router *gin.Engine, publicHandler *handler.PublicHandler, car
 		api.GET("/cards", cardsHandler.GetCards)
 		api.GET("/card", cardsHandler.GetCard)
 		api.POST("/research", cardsHandler.CardWhere)
+		api.Use(gin.BasicAuth(gin.Accounts{
+			"admin": "admin",
+		}))
+
+		api.POST("/card", cardsHandler.InsertCard)
+		api.DELETE("/card", cardsHandler.DeleteCard)
+		api.PATCH("/card", cardsHandler.UpdateCard)
 
 	}
 }

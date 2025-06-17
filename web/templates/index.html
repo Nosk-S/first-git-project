@@ -175,7 +175,6 @@
 
         // Crée un objets JSON qui contient la valeur de query
         const cardData = { research: query };
-        console.log(cardData);
 
         // Utilisation de la methode POST /api/research
         fetch("/api/research", {
@@ -193,7 +192,6 @@
           .then((data) => {
             // On cible le <tbody> de notre table
             const tbody = document.querySelector("#cards-table tbody");
-            console.log(tbody);
             tbody.innerHTML = ""; // on vide les anciennes lignes
 
             // Remplissage de chaque carte si l'on recoit un tableau
