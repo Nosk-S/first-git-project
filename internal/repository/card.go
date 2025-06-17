@@ -3,14 +3,13 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"gin-project/internal/domain"
 	"gin-project/internal/models"
 )
 
 type CardRepository interface {
-	SelectCards(ctx context.Context) ([]domain.Card, error)
-	SelectCard(ctx context.Context, id string) (domain.Card, error)
-	ResearchCards(ctx context.Context, research models.CardResearch) ([]domain.Card, error)
+	SelectCards(ctx context.Context) ([]models.CardSelect, error)
+	SelectCard(ctx context.Context, id string) (models.CardSelect, error)
+	ResearchCards(ctx context.Context, research models.CardResearch) ([]models.CardSelect, error)
 	AddCard(ctx context.Context, newcard models.CardInsertRequest) (models.CardInsertRequest, error)
 	DeleteCard(ctx context.Context, deletecard models.CardDeleteRequest) (models.CardDeleteRequest, error)
 	EditCard(ctx context.Context, updatecard models.CardUpdateRequest) (models.CardUpdateRequest, error)
@@ -24,16 +23,16 @@ func NewSQLCardRepository(db *sql.DB) CardRepository {
 	return &SQLCardRepository{db: db}
 }
 
-func (r *SQLCardRepository) SelectCards(ctx context.Context) ([]domain.Card, error) {
+func (r *SQLCardRepository) SelectCards(ctx context.Context) ([]models.CardSelect, error) {
 	rows, err := r.db.QueryContext(ctx, "SELECT id, nom, mana, effets FROM cartehs")
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
 
-	cards := make([]domain.Card, 0)
+	cards := make([]models.CardSelect, 0)
 	for rows.Next() {
-		var c domain.Card
+		var c models.CardSelect
 
 		if err := rows.Scan(&c.ID, &c.Name, &c.Mana, &c.Effects); err != nil {
 			return nil, err
@@ -47,18 +46,18 @@ func (r *SQLCardRepository) SelectCards(ctx context.Context) ([]domain.Card, err
 	return cards, nil
 }
 
-func (r *SQLCardRepository) SelectCard(ctx context.Context, id string) (domain.Card, error) {
-	var card domain.Card
+func (r *SQLCardRepository) SelectCard(ctx context.Context, id string) (models.CardSelect, error) {
+	var card models.CardSelect
 	err := r.db.QueryRow("SELECT id, nom, mana, effets FROM cartehs WHERE id = ?", id).Scan(&card.ID, &card.Name, &card.Mana, &card.Effects)
 	if err != nil {
-		return domain.Card{}, err
+		return models.CardSelect{}, err
 	}
 
 	return card, nil
 
 }
 
-func (r *SQLCardRepository) ResearchCards(ctx context.Context, research models.CardResearch) ([]domain.Card, error) {
+func (r *SQLCardRepository) ResearchCards(ctx context.Context, research models.CardResearch) ([]models.CardSelect, error) {
 
 	pattern := "%" + research.Research + "%"
 
@@ -68,9 +67,9 @@ func (r *SQLCardRepository) ResearchCards(ctx context.Context, research models.C
 	}
 	defer rows.Close()
 
-	cards := make([]domain.Card, 0)
+	cards := make([]models.CardSelect, 0)
 	for rows.Next() {
-		var c domain.Card
+		var c models.CardSelect
 
 		if err := rows.Scan(&c.ID, &c.Name, &c.Mana, &c.Effects); err != nil {
 			return nil, err

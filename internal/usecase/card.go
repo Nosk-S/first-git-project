@@ -3,15 +3,14 @@ package usecase
 import (
 	"context"
 	"fmt"
-	"gin-project/internal/domain"
 	"gin-project/internal/models"
 	"gin-project/internal/repository"
 )
 
 type CardUsecase interface {
-	GetCards(ctx context.Context) ([]domain.Card, error)
-	GetCard(ctx context.Context, id string) (domain.Card, error)
-	CardWhere(ctx context.Context, research models.CardResearch) ([]domain.Card, error)
+	GetCards(ctx context.Context) ([]models.CardSelect, error)
+	GetCard(ctx context.Context, id string) (models.CardSelect, error)
+	CardWhere(ctx context.Context, research models.CardResearch) ([]models.CardSelect, error)
 	InsertCard(ctx context.Context, newcard models.CardInsertRequest) (models.CardInsertRequest, error)
 	DeleteCard(ctx context.Context, deletecard models.CardDeleteRequest) (models.CardDeleteRequest, error)
 	UpdateCard(ctx context.Context, updatecard models.CardUpdateRequest) (models.CardUpdateRequest, error)
@@ -25,15 +24,15 @@ func NewCardUsecase(repo repository.CardRepository) CardUsecase {
 	return &cardUsecase{repo: repo}
 }
 
-func (u *cardUsecase) GetCards(ctx context.Context) ([]domain.Card, error) {
+func (u *cardUsecase) GetCards(ctx context.Context) ([]models.CardSelect, error) {
 	return u.repo.SelectCards(ctx)
 }
 
-func (u *cardUsecase) GetCard(ctx context.Context, id string) (domain.Card, error) {
+func (u *cardUsecase) GetCard(ctx context.Context, id string) (models.CardSelect, error) {
 	return u.repo.SelectCard(ctx, id)
 }
 
-func (u *cardUsecase) CardWhere(ctx context.Context, research models.CardResearch) ([]domain.Card, error) {
+func (u *cardUsecase) CardWhere(ctx context.Context, research models.CardResearch) ([]models.CardSelect, error) {
 	return u.repo.ResearchCards(ctx, research)
 }
 

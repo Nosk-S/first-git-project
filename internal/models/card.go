@@ -1,5 +1,12 @@
 package models //ici que je place toute mes structure
 
+type CardSelect struct {
+	ID      int    `json:"id"`
+	Name    string `json:"name"`
+	Mana    int8   `json:"mana"`
+	Effects string `json:"effects"`
+}
+
 type CardResearch struct {
 	Research string  `json:"research"`
 	ID       *int    `json:"id"`

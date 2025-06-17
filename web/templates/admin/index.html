@@ -345,6 +345,7 @@
             tr.appendChild(td);
             tbody.appendChild(tr);
           });
+        input.value = "";
       }
 
       function addcard() {
@@ -438,6 +439,7 @@
             return response.json();
           })
           .then((newCard) => {
+            id.value = "";
             loadCards(); // Te permet de reload les cartes une fois insérées
           })
           .catch((error) => {
@@ -495,6 +497,10 @@
             return response.json();
           })
           .then((newCard) => {
+            id.value = "";
+            name.value = "";
+            mana.value = "";
+            effects.value = "";
             loadCards(); // Te permet de reload les cartes une fois insérées
           })
           .catch((error) => {
