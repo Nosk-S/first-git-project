@@ -59,6 +59,12 @@ func (u *cardUsecase) DeleteCard(ctx context.Context, deletecard models.CardDele
 		return models.CardDeleteRequest{}, fmt.Errorf("le champ ID est requis")
 	}
 
+	currentID := fmt.Sprint(*deletecard.ID)
+
+	if _, err := u.repo.SelectCard(ctx, currentID); err != nil {
+		return models.CardDeleteRequest{}, err
+	}
+
 	return u.repo.DeleteCard(ctx, deletecard)
 }
 
@@ -67,8 +73,8 @@ func (u *cardUsecase) UpdateCard(ctx context.Context, updatecard models.CardUpda
 		return models.CardUpdateRequest{}, fmt.Errorf("le champ ID est requis")
 	}
 
-	idStr := fmt.Sprint(*updatecard.ID)
-	currentcard, err := u.repo.SelectCard(ctx, idStr)
+	currentID := fmt.Sprint(*updatecard.ID)
+	currentcard, err := u.repo.SelectCard(ctx, currentID)
 	if err != nil {
 		return models.CardUpdateRequest{}, err
 	}
